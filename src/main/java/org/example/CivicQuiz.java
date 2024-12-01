@@ -1,11 +1,12 @@
 package org.example;
 
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 import java.util.*;
 
-public class App {
+public class CivicQuiz {
 
     private static final String FIELD_DELIMITER = "\\|";
     private static final String FILE_BASE_PATH = "src/main/resources/";
@@ -15,7 +16,7 @@ public class App {
     private final Scanner userInput = new Scanner(System.in);
 
     public static void main(String[] args) throws InterruptedException {
-        App app = new App();
+        CivicQuiz app = new CivicQuiz();
         app.run();
 
     }
@@ -28,7 +29,7 @@ public class App {
             String choice = userInput.nextLine();
             if (choice.equals("1")) {
                 countDownMessage();
-                List<QuizQuestion> questions = readQuestionsFromFile("TestQuestion.txt");
+                List<QuizQuestion> questions = readQuestionsFromFile("src/main/resources/TestQuestions.txt");
                 if (questions.isEmpty()) {
                     System.out.println("No questions found. Exiting program.");
                     return;
@@ -37,35 +38,29 @@ public class App {
                 int totalQuestions = questions.size();
                 int correctAnswers = 0;
 
-                Scanner scanner = new Scanner(System.in);
-
-                for (Question question : questions) {
+                for (QuizQuestion question : questions) {
                     System.out.println(question.getQuestion());
                     List<String> choices = question.getChoices();
                     for (int i = 0; i < choices.size(); i++) {
                         System.out.println((i + 1) + ". " + choices.get(i));
                     }
                     System.out.print("\nYour answer: ");
-                    int userChoice = scanner.nextInt();
+                    int userChoice = userInput.nextInt();
                     if (question.isCorrectAnswer(userChoice)) {
-                        System.out.println("RIGHT!");
+                        System.out.println("That is correct!");
                         correctAnswers++;
                     } else {
-                        System.out.println("WRONG!");
+                        System.out.println("Incorrect. The right answer is: ");
                     }
                     System.out.println();
                 }
-
                 System.out.println("You got " + correctAnswers + " answer(s) correct out of the " + totalQuestions + " questions asked.");
             }
-
-
         }
-
     }
 
-    private static List<Question> readQuestionsFromFile(String fileName) {
-        List<Question> questions = new ArrayList<>();
+    private static List<QuizQuestion> readQuestionsFromFile(String fileName) {
+        List<QuizQuestion> questions = new ArrayList<>();
         try {
             Scanner fileScanner = new Scanner(new File(fileName));
             while (fileScanner.hasNextLine()) {
@@ -77,7 +72,7 @@ public class App {
                     for (int i = 1; i < parts.length; i++) {
                         choices.add(parts[i]);
                     }
-                    questions.add(new Question(questionText, choices));
+                    questions.add(new QuizQuestion(questionText, choices));
                 }
             }
             fileScanner.close();
