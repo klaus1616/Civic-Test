@@ -6,6 +6,9 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 import java.util.*;
 
+// To run this quiz hit play!
+
+
 public class CivicQuiz {
 
     private static final String FIELD_DELIMITER = "\\|";
