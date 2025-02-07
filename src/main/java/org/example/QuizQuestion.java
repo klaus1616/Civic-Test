@@ -17,15 +17,19 @@ public class QuizQuestion {
         this.choices = choices;
     }
     public String getQuestion() {
+
         return question;
     }
     public List<String> getChoices() {
+
         return choices;
     }
     public int getCorrectAnswerIndex() {
+
         return correctAnswerIndex;
     }
     public boolean isCorrectAnswer(int userChoice) {
+
         return choices.get(userChoice - 1).endsWith("*");
     }
 }
